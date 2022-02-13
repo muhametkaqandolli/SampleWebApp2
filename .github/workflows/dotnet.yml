@@ -24,14 +24,14 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    - name: Build and push Docker image
-      uses: mr-smithers-excellent/docker-build-push@v5.6
-      with:
+#    - name: Build and push Docker image
+#      uses: mr-smithers-excellent/docker-build-push@v5.6
+#      with:
         # Name of the Docker image
-          image: memikaqandolli/myresumeapp
+#          image: memikaqandolli/myresumeapp
         # Target Docker registry
-          registry: docker.io
+#          registry: docker.io
         # Docker registry username
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
         # Docker registry password
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+#          password: ${{ secrets.DOCKERHUB_TOKEN }}
