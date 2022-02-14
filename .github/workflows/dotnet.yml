@@ -42,12 +42,12 @@ jobs:
 #        tags: ${{ secrets.DOCKERHUB_USERNAME }}/myresumeapp:latest
 
     - name: Build and push Docker image
-      uses: mr-smithers-excellent/docker-build-push@v5.6
+      uses: mr-smithers-excellent/docker-build-push@v5
       with:
        # Name of the Docker image
           image: memikaqandolli/myresumeapp
         # Target Docker registry
-#          registry: docker.io
+          registry: docker.io
         # Docker registry username
           username: ${{ secrets.DOCKERHUB_USERNAME }}
         # Docker registry password
