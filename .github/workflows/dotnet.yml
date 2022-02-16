@@ -8,11 +8,11 @@ on:
     
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
@@ -23,7 +23,47 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+  build-and-push-docker-image:
+    name: Build Docker image and push to repositories
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Build image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: ./src/samples/simple
+          # Note: tags has to be all lower-case
+          tags: |
+            oskardudycz/eventsourcing.nodejs.simple:latest 
+            ghcr.io/oskardudycz/eventsourcing.nodejs/simple:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/myresumeapp:latest
+         
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
 #    - name: Docker Login
 #      uses: docker/login-action@v1.12.0
 #      with:
@@ -34,36 +74,6 @@ jobs:
 #      uses: docker/setup-buildx-action@v1.6.0  
 #      - name: Publish Docker
 
-# You may pin to the exact commit or the version.
-  # uses: elgohr/Publish-Docker-Github-Action@191af57e15535d28b83589e3b5f0c31e76aa8733
-    - name: Publish Docker
-      uses: elgohr/Publish-Docker-Github-Action@3.04
-      with:
-    # The name of the image you would like to push
-         name: myresumeapp
-    # The login username for the registry
-         username: ${{ secrets.DOCKERHUB_USERNAME }}
-    # The login password for the registry
-         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    # Use registry for pushing to a custom registry
-         registry: docker.io
-    # Use dockerfile when you would like to explicitly build a Dockerfile
-         dockerfile: ./Dockerfile
-    # Use workdir when you would like to change the directory for building
-       # workdir: # optional
-    # Use context when you would like to change the Docker build context.
-         context: . 
-    # Use buildargs when you want to pass a list of environment variables as build-args
-    # Use tags when you want to bring your own tags (separated by comma)
-         tags: latest
-#    -
-#      name: Build and push
-#      uses: docker/build-push-action@v2
-#      with:
-#        context: ./
-#        file: ./Dockerfile
-#        push: true
-#        tags: ${{ secrets.DOCKERHUB_USERNAME }}/myresumeapp:latest
 
 
  #   - name: Image digest
