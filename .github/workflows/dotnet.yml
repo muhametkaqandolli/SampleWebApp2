@@ -48,11 +48,11 @@ jobs:
     # Use registry for pushing to a custom registry
          registry: docker.io
     # Use dockerfile when you would like to explicitly build a Dockerfile
-       # dockerfile: # optional
+         dockerfile: ./Dockerfile
     # Use workdir when you would like to change the directory for building
        # workdir: # optional
     # Use context when you would like to change the Docker build context.
-        # context: # optional
+         context: . 
     # Use buildargs when you want to pass a list of environment variables as build-args
     # Use tags when you want to bring your own tags (separated by comma)
          tags: latest
