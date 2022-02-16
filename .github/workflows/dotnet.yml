@@ -26,6 +26,9 @@ jobs:
       
   build-and-push-docker-image:
     name: Build Docker image and push to repositories
+    defaults:
+      run:
+        working-directory: ./
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
