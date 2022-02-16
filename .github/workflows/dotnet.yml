@@ -28,7 +28,7 @@ jobs:
     name: Build Docker image and push to repositories
     defaults:
       run:
-        working-directory: ./
+        working-directory: ./SampleWebApp2
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
