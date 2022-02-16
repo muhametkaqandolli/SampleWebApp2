@@ -46,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./SampleWebApp2
-          file: ./Dockerfile
+#          file: Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/myresumeapp:latest
          
