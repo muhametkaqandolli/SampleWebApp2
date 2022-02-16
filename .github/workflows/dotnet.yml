@@ -40,7 +40,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@3.04
       with:
     # The name of the image you would like to push
-         name: testimage 
+         name: myresumeapp
     # The login username for the registry
          username: ${{ secrets.DOCKERHUB_USERNAME }}
     # The login password for the registry
@@ -55,8 +55,7 @@ jobs:
         # context: # optional
     # Use buildargs when you want to pass a list of environment variables as build-args
     # Use tags when you want to bring your own tags (separated by comma)
-         tags: ${{ secrets.DOCKERHUB_USERNAME }}/myresumeapp:latest
-
+         tags: latest
 #    -
 #      name: Build and push
 #      uses: docker/build-push-action@v2
